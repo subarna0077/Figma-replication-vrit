@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import arrowImage from "./assets/arrow.png";
-
 
 
 const App = () => {
-  const [openIndex, setOpenIndex] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+   const [openIndex, setOpenIndex] = useState(0);
+   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const courses = [
     {
@@ -57,7 +55,7 @@ const App = () => {
     <div className="container w-full h-full">
       <div className="box m-10 p-6 relative">
         {/* Header Section */}
-        <div className="text-left mb-40">
+        <div className="text-left mb-18">
           <h1 className="text-4xl text-[#1DAO77]">
             Explore Our Classes and Master Trending Skills!
           </h1>
@@ -67,26 +65,12 @@ const App = () => {
           </p>
         </div>
 
-        {/* Courses Cards */}
-        <div className="flex gap-6 relative">
+        <div className="cards-section flex gap-6 relative">
           {courses.map((course, index) => (
-            <div key={index} className="relative">
-              {/* Hover Click Here Arrow */}
-              {hoveredIndex === index && openIndex !== index && (
-                <motion.div
-                  className="absolute z-50 left-1/2 transform -translate-x-1/2"
-                  style={{ top: "-80px" }}
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                 
-                </motion.div>
-              )}
-
+            <div key={index} className="relative card"> 
               <motion.div
-                className={`relative p-6 rounded-lg shadow-lg cursor-pointer overflow-hidden ${
-                  openIndex === index ? course.color : "bg-gray-200"
+                className={`relative p-4 rounded-lg shadow-lg cursor-pointer overflow-hidden  ${
+                  openIndex === index ? course.color : "bg-[rgba(249,235,236,1)]"
                 }`}
                 onClick={() => toggleCard(index)}
                 onMouseEnter={() => setHoveredIndex(index)}
@@ -101,23 +85,43 @@ const App = () => {
                 {/* Rest of the card content remains the same */}
                 {/* Expanded Card Icons */}
                 {openIndex === index && course.icons && (
-                  <div className="flex pt-10 gap-10 mb-4 justify-center items-center">
+                  <motion.div 
+                  className=" relative flex flex-col gap-10 mb-4 justify-center items-center duration-100"
+                  initial= {{x: -100, opacity: 0}}
+                  animate={{x:0, opacity:1}}
+                  exit={{x: 0, opacity:0}}
+                  transition={{type:"spring", stiffness: 100, damping: 10}}
+                  >
+
+                    <p className=" flex justify-end w-full text-white mr-6 ">View all courses</p>
+
+                    <div className="flex items-center gap-8 mt-4">
                     {course.icons.map((icon, i) => (
-                      <img
+                      <motion.img
                         key={i}
                         src={icon}
                         alt="Icon"
+                        initial={{ x: -50 }}
+                        animate={{ x: 0 }}
                         className="w-25 h-25 object-contain"
                       />
                     ))}
-                  </div>
+
+                    </div>
+                 
+                  </motion.div>
                 )}
 
                 {/* Course Title and Description */}
-                <motion.div
-                  className={`absolute  ${
+
+
+                
+
+               
+               <motion.div
+                  className={`absolute ${
                     openIndex === index
-                      ? "right-8 bottom-6 flex flex-col gap-2 items-start"
+                      ? "flex flex-col gap-2 bottom-6 left-[41%] wrap"
                       : "left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"
                   }`}
                   animate={{
@@ -152,21 +156,31 @@ const App = () => {
                 <motion.div
                   className={`absolute ${
                     openIndex === index
-                      ? "left-6 bottom-6 text-white"
-                      : "left-1/2 bottom-4 transform -translate-x-1/2 text-[#c23241]"
-                  } text-7xl font-bold `}
+                      ? "left-[15%] bottom-6 text-white"
+                      : "left-1/2 bottom-6 transform -translate-x-1/2 text-[#c23241]"
+                  } text-8xl font-bold `}
                   transition={{
                     type: "spring",
                     stiffness: 100,
                     damping: 15,
                   }}
                 >
-                  {course.count} <sup>+</sup>
-                </motion.div>
+                  {course.count}<sup className="m-0">+</sup>
+                </motion.div> 
+
+               
               </motion.div>
             </div>
           ))}
-        </div>
+        </div> 
+
+      
+
+
+
+
+       
+   
       </div>
     </div>
   );
